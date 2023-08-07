@@ -14,6 +14,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+
+
   final signInForm = GlobalKey<FormState>();
   final authFunctions = Authentication();
 
@@ -44,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       style: TextStyle(
                           fontSize: 50,
                           fontWeight: FontWeight.w900,
-                          color: Colors.green),
+                          color: Color(0xFF385a64),),
                     ),
                   ),
                 ),
@@ -92,25 +94,30 @@ class _SignInScreenState extends State<SignInScreen> {
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () {
-                              FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                      email: email.text,
-                                      password: password.text)
-                                  .then((value) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DashboardScreen(),
-                                  ),
-                                );
-                              }).onError((error, stackTrace) {
-                                print("Error Is ${error.toString()}");
-                              });
+                              // FirebaseAuth.instance
+                              //     .signInWithEmailAndPassword(
+                              //         email: email.text,
+                              //         password: password.text)
+                              //     .then((value) {
+                              //   Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           const DashboardScreen(),
+                              //     ),
+                              //   );
+                              // }).onError((error, stackTrace) {
+                              //   print("Error Is ${error.toString()}");
+                              // });
+
+                              if(signInForm.currentState!.validate()){
+                                signInForm.currentState!.save();
+                                authFunctions.signInWithEmailAndPassword(email, password);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.all(20),
                               foregroundColor: Colors.white70,
-                              primary: const Color(0xFF0be881),
+                              primary: const Color(0xFF01b399),
                             ),
                             child: const Text(
                               "Sign In",
@@ -143,7 +150,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(20),
                           foregroundColor: Colors.white70,
-                          primary: Color(0xFF05c46b),
+                          primary: Color(0xFF385a64),
                         ),
                         child: const Text(
                           "Sign Up",

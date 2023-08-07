@@ -48,9 +48,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Text(
                       "Let's Get Started",
                       style: TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.green),
+                        fontSize: 50,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF385a64),
+                      ),
                     ),
                   ),
                 ),
@@ -155,13 +156,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Processing Data')),
+                                    const SnackBar(
+                                        content: Text('Processing Data')),
                                   );
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.all(20),
-                                primary: Color(0xFF05c46b),
+                                primary: Color(0xFF01b399),
                               ),
                               child: const Text(
                                 "Sign Up",
@@ -178,26 +180,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
-
                 Align(
                   alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => Get.to(() => SignInScreen()),
-                    child: const Text(
-                      "Already Have An Account?",
-                      style: TextStyle(
-                        color: Color(0xFF485460),
-                      ),
+                  child: Text(
+                    "Already Have An Account?",
+                    style: TextStyle(
+                      color: Color(0xFF485460),
                     ),
                   ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Get.to(() => SignInScreen()),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(20),
+                          foregroundColor: Colors.white70,
+                          primary: const Color(0xFF385a64),
+                        ),
+                        child: const Text(
+                          "Sign In",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 3),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 20),
                   child: Text(
-                    "OR SIGN IN WITH",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                    ),
+                    "OR SIGN IN WITH",style: TextStyle(
+                    color: Color(0xFF485460),
+                    fontWeight: FontWeight.w900
+                  ),
                   ),
                 ),
                 Row(
@@ -208,7 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           side: const BorderSide(
-                            color: Colors.black,
+                            color: Color(0xFF485460),
                           ),
                         ),
                         onPressed: () {
@@ -218,7 +238,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           FontAwesomeIcons.google,
                           color: Color(0xFFDB4437),
                         ),
-                        label: const Text("GOOGLE"),
+                        label: const Text(
+                          "GOOGLE",
+                          style: TextStyle(
+                            color: Color(0xFF485460),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -229,7 +254,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           side: const BorderSide(
-                            color: Colors.black,
+                            color: Color(0xFF485460),
                           ),
                         ),
                         onPressed: null,
@@ -237,7 +262,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           FontAwesomeIcons.facebook,
                           color: Color(0xFF4267B2),
                         ),
-                        label: const Text("FACEBOOK"),
+                        label: const Text(
+                          "FACEBOOK",
+                          style: TextStyle(
+                            color: Color(0xFF485460),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -248,7 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           side: const BorderSide(
-                            color: Colors.black,
+                            color: Color(0xFF485460),
                           ),
                         ),
                         onPressed: null,
@@ -256,7 +286,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           FontAwesomeIcons.twitter,
                           color: Color(0xFF1DA1F2),
                         ),
-                        label: const Text("TWITTER"),
+                        label: const Text(
+                          "TWITTER",
+                          style: TextStyle(
+                            color: Color(0xFF485460),
+                          ),
+                        ),
                       ),
                     ),
                   ],
