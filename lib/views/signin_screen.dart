@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:myapp/views/dashboard_screen.dart';
 import 'package:myapp/views/signup_screen.dart';
 import '../functions/auth_functions.dart';
 
@@ -94,21 +93,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () {
-                              // FirebaseAuth.instance
-                              //     .signInWithEmailAndPassword(
-                              //         email: email.text,
-                              //         password: password.text)
-                              //     .then((value) {
-                              //   Navigator.of(context).push(
-                              //     MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           const DashboardScreen(),
-                              //     ),
-                              //   );
-                              // }).onError((error, stackTrace) {
-                              //   print("Error Is ${error.toString()}");
-                              // });
-
                               if(signInForm.currentState!.validate()){
                                 signInForm.currentState!.save();
                                 authFunctions.signInWithEmailAndPassword(email, password);
