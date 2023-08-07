@@ -13,8 +13,6 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-
-
   final signInForm = GlobalKey<FormState>();
   final authFunctions = Authentication();
 
@@ -43,9 +41,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: Text(
                       "Welcome!",
                       style: TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF385a64),),
+                        fontSize: 50,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF385a64),
+                      ),
                     ),
                   ),
                 ),
@@ -56,67 +55,68 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: Text("Sign in to continue")),
                 ),
                 Form(
-                  key: signInForm,
+                    key: signInForm,
                     child: Column(
-                  children: [
-                    TextField(
-                      controller: email,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextField(
-                      controller: password,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: null,
-                        child: Text(
-                          "Forget Password?",
-                          style: TextStyle(
-                            color: Color(0xFF485460),
+                      children: [
+                        TextField(
+                          controller: email,
+                          decoration: const InputDecoration(
+                            hintText: 'Email',
+                            border: OutlineInputBorder(),
                           ),
                         ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () {
-                              if(signInForm.currentState!.validate()){
-                                signInForm.currentState!.save();
-                                authFunctions.signInWithEmailAndPassword(email, password);
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(20),
-                              foregroundColor: Colors.white70,
-                              primary: const Color(0xFF01b399),
-                            ),
-                            child: const Text(
-                              "Sign In",
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                          controller: password,
+                          decoration: const InputDecoration(
+                            hintText: 'Password',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: null,
+                            child: Text(
+                              "Forget Password?",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 3),
+                                color: Color(0xFF485460),
+                              ),
                             ),
                           ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  if (signInForm.currentState!.validate()) {
+                                    signInForm.currentState!.save();
+                                    authFunctions.signInWithEmailAndPassword(
+                                        email, password);
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(20),
+                                  backgroundColor: const Color(0xFF01b399),
+                                  foregroundColor: Colors.white70,
+                                ),
+                                child: const Text(
+                                  "Sign In",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 3),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                  ],
-                )),
+                    )),
                 const Padding(
                   padding: EdgeInsets.all(5.0),
                   child: Text(
@@ -132,9 +132,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: OutlinedButton(
                         onPressed: () => Get.to(() => const SignUpScreen()),
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
+                          backgroundColor: const Color(0xFF385a64),
                           foregroundColor: Colors.white70,
-                          primary: Color(0xFF385a64),
                         ),
                         child: const Text(
                           "Sign Up",

@@ -180,12 +180,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    "Already Have An Account?",
-                    style: TextStyle(
-                      color: Color(0xFF485460),
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      "Already Have An Account?",
+                      style: TextStyle(
+                        color: Color(0xFF485460),
+                        fontWeight: FontWeight.w900
+                      ),
                     ),
                   ),
                 ),

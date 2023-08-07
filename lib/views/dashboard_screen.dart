@@ -170,7 +170,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           onChanged: (value) {
                             setState(() {
                               selectedGender = value!;
-                              print(selectedGender);
                             });
                           }),
                       const Text("Female"),
@@ -180,7 +179,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           onChanged: (value) {
                             setState(() {
                               selectedGender = value!;
-                              print(selectedGender);
                             });
                           })
                     ],
@@ -195,7 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: OutlinedButton(
                         onPressed: () {
                           showModalBottomSheet(
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadiusDirectional.only(
                                 topStart: Radius.circular(50),
                                 topEnd: Radius.circular(50)
@@ -203,8 +201,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             context: context,
                             builder: (context) => Container(
-                              padding: EdgeInsets.all(50),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(50),
+                              decoration: const BoxDecoration(
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(50),
