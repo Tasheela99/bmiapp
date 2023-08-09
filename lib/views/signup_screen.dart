@@ -149,12 +149,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                              // onPressed: () {
-                              //   FirebaseAuth.instance.createUserWithEmailAndPassword(
-                              //       email: email.text, password: password.text);
-                              // },
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
+                                  FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                      email: email.text, password: password.text);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text('Processing Data')),
