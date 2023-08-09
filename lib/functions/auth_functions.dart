@@ -37,7 +37,6 @@ class Authentication {
 
   signOut(){
     FirebaseAuth.instance.signOut();
-    Get.to(()=> const SignInScreen());
   }
 
 }

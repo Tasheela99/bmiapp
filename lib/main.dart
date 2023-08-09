@@ -1,11 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/views/dashboard_screen.dart';
-import 'package:myapp/views/signin_screen.dart';
-import 'package:myapp/views/signup_screen.dart';
-
 import 'firebase_options.dart';
 import 'views/page_switcher_screen.dart';
 

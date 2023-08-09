@@ -163,7 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.all(20),
-                                primary: Color(0xFF01b399),
+                                primary: Color(0xFF10ac84),
                               ),
                               child: const Text(
                                 "Sign Up",
@@ -201,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(20),
                           foregroundColor: Colors.white70,
-                          primary: const Color(0xFF385a64),
+                          primary: const Color(0xFF222f3e),
                         ),
                         child: const Text(
                           "Sign In",

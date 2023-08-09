@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
+import 'package:myapp/modals/bmi_data_model.dart';
+import 'package:myapp/views/previous_records_screen.dart';
 import '../constants/app_text_constants.dart';
 import '../functions/auth_functions.dart';
-
-
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -25,9 +26,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String heightResults = "";
   late int height;
   late int weight;
-  late double bmi;
-  late double bmiValue;
-  String selectedGender = "";
+  late double bmi = 0;
+  late double bmiValue = 0;
+  String selectedGender = "Male";
+
+  Map<String, dynamic> userInfo = {
+
+  };
 
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -73,7 +78,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),
-                const Image(image: AssetImage("assets/images/dashboard_image.jpg",),width: 250,),
+                const Image(
+                  image: AssetImage(
+                    "assets/images/dashboard_image.jpg",
+                  ),
+                  width: 250,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -85,7 +95,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.zero),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 2.0),
                           borderRadius: BorderRadius.zero),
                       labelText: "Name",
                       labelStyle: TextStyle(color: Colors.black)),
@@ -101,7 +112,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.zero),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 2.0),
                           borderRadius: BorderRadius.zero),
                       labelText: "Address",
                       labelStyle: TextStyle(color: Colors.black)),
@@ -118,7 +130,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.zero),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 2.0),
                           borderRadius: BorderRadius.zero),
                       labelText: "Weight",
                       labelStyle: TextStyle(color: Colors.black)),
@@ -135,7 +148,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.zero),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 2.0),
                           borderRadius: BorderRadius.zero),
                       labelText: "Height",
                       labelStyle: TextStyle(color: Colors.black)),
@@ -151,7 +165,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.zero),
                       focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 2.0),
                           borderRadius: BorderRadius.zero),
                       labelText: "Pick Your Birth Day",
                       labelStyle: const TextStyle(color: Colors.black)),
@@ -192,77 +207,155 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () {
+                          printData();
                           showModalBottomSheet(
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.only(
-                                topStart: Radius.circular(50),
-                                topEnd: Radius.circular(50)
-                              )
-                            ),
+                                borderRadius: BorderRadiusDirectional.only(
+                                    topStart: Radius.circular(50),
+                                    topEnd: Radius.circular(50))),
                             context: context,
                             builder: (context) => Container(
                               padding: const EdgeInsets.all(50),
                               decoration: const BoxDecoration(
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(50),
-                                  topLeft: Radius.circular(50)
-                                ),
+                                    topRight: Radius.circular(50),
+                                    topLeft: Radius.circular(50)),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                   Column(
+                                    children: [
+                                      Icon(FontAwesomeIcons.circleUser,size: 50),
+                                      SizedBox(height: 10,),
+                                      Text("Your Details",style: TextStyle(
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold,
+                                      ),),
+                                    ],
+                                  ),
+                                  SizedBox(height: 30,),
                                   Center(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         const Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text("Name",style: kDashBoardTextStyles),
-                                              Text("Address",style: kDashBoardTextStyles),
-                                              Text("Bmi",style: kDashBoardTextStyles),
-                                              Text("Bmi Value",style: kDashBoardTextStyles),
-                                              Text("Age",style: kDashBoardTextStyles),
-                                              Text("Gender",style: kDashBoardTextStyles),
+                                              Text("Name",
+                                                  style: kDashBoardTextStyles),
+                                              Text("Address",
+                                                  style: kDashBoardTextStyles),
+                                              Text("Bmi",
+                                                  style: kDashBoardTextStyles),
+                                              Text("Bmi Value",
+                                                  style: kDashBoardTextStyles),
+                                              Text("Age",
+                                                  style: kDashBoardTextStyles),
+                                              Text("Gender",
+                                                  style: kDashBoardTextStyles),
                                             ],
                                           ),
                                         ),
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(name,style: kDashBoardTextStyles),
-                                            Text(addressIs,style: kDashBoardTextStyles),
-                                            Text(bmi.toStringAsFixed(2),style: kDashBoardTextStyles),
-                                            Text(heightResults,style: kDashBoardTextStyles),
-                                            Text(myAge,style: kDashBoardTextStyles),
-                                            Text(selectedGender,style: kDashBoardTextStyles),
+                                            Text(name,
+                                                style: kDashBoardTextStyles),
+                                            Text(addressIs,
+                                                style: kDashBoardTextStyles),
+                                            Text(bmi.toStringAsFixed(2),
+                                                style: kDashBoardTextStyles),
+                                            Text(heightResults,
+                                                style: kDashBoardTextStyles),
+                                            Text(myAge,
+                                                style: kDashBoardTextStyles),
+                                            Text(selectedGender,
+                                                style: kDashBoardTextStyles),
                                           ],
                                         ),
                                       ],
                                     ),
                                   ),
+                                  SizedBox(height: 20,),
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: OutlinedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  clearTextFields();
+                                                });
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                padding: const EdgeInsets.all(20),
+                                                foregroundColor: Colors.white70,
+                                                primary: const Color(0xFFee5253),
+                                              ),
+                                              child: const Text(
+                                                "Clear Fields & Exit",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w900,
+                                                    letterSpacing: 3),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10,),
                                   Row(
                                     children: [
                                       Expanded(
                                         child: OutlinedButton(
                                           onPressed: () {
-                                            setState(() {
-                                              clearTextFields();
-                                            });
+                                            addBmiData();
                                           },
                                           style: ElevatedButton.styleFrom(
                                             padding: const EdgeInsets.all(20),
                                             foregroundColor: Colors.white70,
-                                            primary: const Color(0xFF26de81),
+                                            primary: const Color(0xFF10ac84),
                                           ),
                                           child: const Text(
-                                            "Clear Fields",
+                                            "Write Data",
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.white,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w900,
+                                                letterSpacing: 3),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () => Get.to(() => PreviousRecordsScreen()),
+                                          style: ElevatedButton.styleFrom(
+                                            padding: const EdgeInsets.all(20),
+                                            foregroundColor: Colors.white70,
+                                            primary: const Color(0xFF1dd1a1),
+                                          ),
+                                          child: const Text(
+                                            "Show Previous Records",
+                                            style: TextStyle(
+                                                color: Colors.white,
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.w900,
                                                 letterSpacing: 3),
@@ -288,7 +381,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(20),
                           foregroundColor: Colors.white70,
-                          primary: const Color(0xFF0be881),
+                          primary: const Color(0xFF10ac84),
                         ),
                         child: const Text(
                           "Submit",
@@ -313,7 +406,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(20),
                           foregroundColor: Colors.white70,
-                          primary: const Color(0xFFff3f34),
+                          primary: const Color(0xFFee5253),
                         ),
                         child: const Text(
                           "Clear Fields",
@@ -382,5 +475,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ageController.clear();
     weightController.clear();
     heightController.clear();
+  }
+
+  void printData() {
+    print(nameController.text);
+    print(addressIs);
+    print(bmi);
+    print(heightResults);
+    print(myAge);
+    print(selectedGender);
+  }
+
+  void addBmiData() {
+    var document = BmiDataModel(
+        name: name,
+        address: addressIs,
+        myAge: myAge,
+        bmi: bmi,
+        gender: selectedGender,
+        heightResults: heightResults);
+
+    FirebaseFirestore.instance.collection('bmi_data').add(document.toJson());
   }
 }

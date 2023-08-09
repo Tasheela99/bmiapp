@@ -100,7 +100,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(20),
-                                  backgroundColor: const Color(0xFF01b399),
+                                  backgroundColor: const Color(0xFF10ac84),
                                   foregroundColor: Colors.white70,
                                 ),
                                 child: const Text(
@@ -133,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         onPressed: () => Get.to(() => const SignUpScreen()),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(20),
-                          backgroundColor: const Color(0xFF385a64),
+                          backgroundColor: const Color(0xFF222f3e),
                           foregroundColor: Colors.white70,
                         ),
                         child: const Text(
