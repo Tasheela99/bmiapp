@@ -2,24 +2,27 @@
 //
 //     final bmiDatModel = bmiDatModelFromJson(jsonString);
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class BmiDataModel {
   final String name;
   final String address;
-  final String myAge;
+  final String ageText;
   final double bmi;
-  final String gender;
-  final String heightResults;
+  final String selectedGender;
+  final String bmiComment;
+  final Timestamp? timestamp;
 
   BmiDataModel({
     required this.name,
     required this.address,
-    required this.myAge,
+    required this.ageText,
     required this.bmi,
-    required this.gender,
-    required this.heightResults,
+    required this.selectedGender,
+    required this.bmiComment,
+    required this.timestamp,
   });
 
   factory BmiDataModel.fromRawJson(String str) => BmiDataModel.fromJson(json.decode(str));
@@ -27,20 +30,22 @@ class BmiDataModel {
   String toRawJson() => json.encode(toJson());
 
   factory BmiDataModel.fromJson(Map<String, dynamic> json) => BmiDataModel(
-    name: json["name"],
-    address: json["address"],
-    myAge: json["myAge"],
-    bmi: json["bmi"],
-    gender: json["gender"],
-    heightResults: json["heightResults"],
+    name: json["name"] ?? '',
+    address: json["address"]?? '',
+    ageText: json["ageText"]?? '',
+    bmi: json["bmi"]?? 0.0,
+    selectedGender: json["selectedGender"]?? '',
+    bmiComment: json["bmiComment"]?? '',
+    timestamp: json["timestamp"] as Timestamp?,
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
     "address": address,
-    "myAge": myAge,
+    "ageText": ageText,
     "bmi": bmi,
-    "gender": gender,
-    "heightResults": heightResults,
+    "selectedGender": selectedGender,
+    "bmiComment": bmiComment,
+    "timestamp": FieldValue.serverTimestamp(),
   };
 }

@@ -1,500 +1,403 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:myapp/modals/bmi_data_model.dart';
+import 'package:myapp/functions/auth_functions.dart';
 import 'package:myapp/views/previous_records_screen.dart';
-import '../constants/app_text_constants.dart';
-import '../functions/auth_functions.dart';
+
+import '../modals/bmi_data_model.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-String? dateTime1 = 'Select a Date';
-
 class _DashboardScreenState extends State<DashboardScreen> {
-  final authFunctions = Authentication();
+  final auth = Authentication();
 
-  String myAge = "";
-  String name = "";
-  String addressIs = "";
-  String heightResults = "";
-  late int height;
-  late int weight;
-  late double bmi = 0;
-  late double bmiValue = 0;
   String selectedGender = "Male";
-
-  Map<String, dynamic> userInfo = {
-
-  };
-
+  String name = '';
+  String address = '';
+  DateTime? _selectedBirthday;
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
-  TextEditingController bmiController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
+  double bmi = 0.0;
+  String bmiComment = '';
+  String ageText = '';
+  bool submitted = false;
+
+  void printData() {
+    print(name);
+    print(address);
+    print(selectedGender);
+    print(_selectedBirthday);
+    print(bmi);
+    print(bmiComment);
+    print(ageText);
+  }
+
+  void addBmiData() {
+    var document = BmiDataModel(
+        name: name,
+        address: address,
+        ageText: ageText,
+        bmi: bmi,
+        bmiComment: bmiComment,
+        selectedGender: selectedGender,
+        timestamp: Timestamp.now());
+
+    FirebaseFirestore.instance.collection('bmi_data').add(document.toJson());
+  }
+
+  void _calculateBMI() {
+    double weight = double.tryParse(weightController.text) ?? 0;
+    double height = double.tryParse(heightController.text) ?? 0;
+
+    if (weight >= 25 &&
+        weight <= 200 &&
+        height >= 100 &&
+        height <= 220 &&
+        _selectedBirthday != null) {
+      setState(() {
+        bmi = weight / ((height / 100) * (height / 100));
+
+        if (bmi < 16) {
+          bmiComment = 'Severely Underweight';
+        } else if (bmi >= 16 && bmi < 18.5) {
+          bmiComment = 'Underweight';
+        } else if (bmi >= 18.5 && bmi < 25) {
+          bmiComment = 'Normal';
+        } else if (bmi >= 25 && bmi < 30) {
+          bmiComment = 'Overweight';
+        } else {
+          bmiComment = 'Obese';
+        }
+
+        final currentDate = DateTime.now();
+        ageText = (currentDate.year - _selectedBirthday!.year).toString();
+        if (currentDate.month < _selectedBirthday!.month ||
+            (currentDate.month == _selectedBirthday!.month &&
+                currentDate.day < _selectedBirthday!.day)) {
+          int age = int.parse(ageText);
+          ageText = (age - 1).toString();
+        }
+
+        submitted = true;
+      });
+    } else {
+      setState(() {
+        bmi = 0.0;
+        bmiComment = '';
+        ageText = '';
+        submitted = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        toolbarHeight: 60,
-        leading: const IconButton(
-          onPressed: null,
-          icon: Icon(
-            FontAwesomeIcons.bars,
-            color: Colors.white,
-          ),
-        ),
         actions: [
           TextButton(
-            onPressed: () => authFunctions.signOut(),
-            child: const Text(
-              "Logout",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
+              onPressed: () {
+                auth.signOut();
+              },
+              child: const Text(
+                "LogOut",
+                style: TextStyle(color: Colors.white),
+              ))
         ],
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Calculate BMI",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if(user != null)
+                Text("${user.email}"),
+              const Column(
+                children: [
+                  Image(
+                    image: AssetImage("assets/images/dashboard_image.jpg"),
                   ),
+                ],
+              ),
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Name',
+                  hintText: 'Enter your name',
+                  border: OutlineInputBorder(),
                 ),
-                const Image(
-                  image: AssetImage(
-                    "assets/images/dashboard_image.jpg",
+                onChanged: (value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20
+              ),
+              TextField(
+                controller: addressController,
+                decoration: const InputDecoration(
+                    labelText: 'Address',
+                    hintText: 'Enter your address',
+                    border: OutlineInputBorder()),
+                onChanged: (value) {
+                  setState(() {
+                    address = value;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20
+              ),
+              TextField(
+                controller: weightController,
+                decoration: InputDecoration(
+                    labelText: 'Weight (kg)',
+                    hintText: 'Enter weight',
+                    errorText: validateWeight(),
+                    border: const OutlineInputBorder()),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(
+                height: 20
+              ),
+              TextField(
+                controller: heightController,
+                decoration: InputDecoration(
+                    labelText: 'Height (cm)',
+                    hintText: 'Enter height',
+                    errorText: validateHeight(),
+                    border: const OutlineInputBorder()),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(
+                height: 20
+              ),
+              Row(
+                children: [
+                  Text(
+                    _selectedBirthday == null
+                        ? 'Select Birthday'
+                        : 'Birthday: ${_selectedBirthday!.year}-${_selectedBirthday!.month}-${_selectedBirthday!.day}',
                   ),
-                  width: 250,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                      hintText: "Name",
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.green, width: 2.0),
-                          borderRadius: BorderRadius.zero),
-                      labelText: "Name",
-                      labelStyle: TextStyle(color: Colors.black)),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: addressController,
-                  decoration: const InputDecoration(
-                      hintText: "Address",
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.green, width: 2.0),
-                          borderRadius: BorderRadius.zero),
-                      labelText: "Address",
-                      labelStyle: TextStyle(color: Colors.black)),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: weightController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: "Weight",
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.green, width: 2.0),
-                          borderRadius: BorderRadius.zero),
-                      labelText: "Weight",
-                      labelStyle: TextStyle(color: Colors.black)),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: heightController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: "Height",
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.green, width: 2.0),
-                          borderRadius: BorderRadius.zero),
-                      labelText: "Height",
-                      labelStyle: TextStyle(color: Colors.black)),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  onTap: _showDatePicker,
-                  decoration: InputDecoration(
-                      hintText: dateTime1,
-                      enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.zero),
-                      focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.green, width: 2.0),
-                          borderRadius: BorderRadius.zero),
-                      labelText: "Pick Your Birth Day",
-                      labelStyle: const TextStyle(color: Colors.black)),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      const Text("Male"),
-                      Radio(
-                          value: "Male",
-                          groupValue: selectedGender,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedGender = value!;
-                            });
-                          }),
-                      const Text("Female"),
-                      Radio(
-                          value: "Female",
-                          groupValue: selectedGender,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedGender = value!;
-                            });
-                          })
-                    ],
+                  IconButton(
+                    icon: const Icon(FontAwesomeIcons.calendarDays),
+                    onPressed: () {
+                      _showDatePicker();
+                    },
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          printData();
-                          showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.only(
-                                    topStart: Radius.circular(50),
-                                    topEnd: Radius.circular(50))),
-                            context: context,
-                            builder: (context) => Container(
-                              padding: const EdgeInsets.all(50),
-                              decoration: const BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(50),
-                                    topLeft: Radius.circular(50)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                   Column(
-                                    children: [
-                                      Icon(FontAwesomeIcons.circleUser,size: 50),
-                                      SizedBox(height: 10,),
-                                      Text("Your Details",style: TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                      ),),
-                                    ],
-                                  ),
-                                  SizedBox(height: 30,),
-                                  Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text("Name",
-                                                  style: kDashBoardTextStyles),
-                                              Text("Address",
-                                                  style: kDashBoardTextStyles),
-                                              Text("Bmi",
-                                                  style: kDashBoardTextStyles),
-                                              Text("Bmi Value",
-                                                  style: kDashBoardTextStyles),
-                                              Text("Age",
-                                                  style: kDashBoardTextStyles),
-                                              Text("Gender",
-                                                  style: kDashBoardTextStyles),
-                                            ],
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(name,
-                                                style: kDashBoardTextStyles),
-                                            Text(addressIs,
-                                                style: kDashBoardTextStyles),
-                                            Text(bmi.toStringAsFixed(2),
-                                                style: kDashBoardTextStyles),
-                                            Text(heightResults,
-                                                style: kDashBoardTextStyles),
-                                            Text(myAge,
-                                                style: kDashBoardTextStyles),
-                                            Text(selectedGender,
-                                                style: kDashBoardTextStyles),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  Column(
-                                    children: [
-                                      Row(
+                ],
+              ),
+              Row(
+                children: [
+                  Radio(
+                    value: "Male",
+                    groupValue: selectedGender,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedGender = value!;
+                      });
+                    },
+                  ),
+                  const Text('Male'),
+                  Radio(
+                    value: "Female",
+                    groupValue: selectedGender,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedGender = value!;
+                      });
+                    },
+                  ),
+                  const Text('Female'),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          context: context,
+                          builder: (context) => Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              children: [
+                                Column(
+                                  children: [
+                                    const Text("Your Details"),
+                                    if (submitted)
+                                      Column(
                                         children: [
-                                          Expanded(
-                                            child: OutlinedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  clearTextFields();
-                                                });
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                padding: const EdgeInsets.all(20),
-                                                foregroundColor: Colors.white70,
-                                                primary: const Color(0xFFee5253),
-                                              ),
-                                              child: const Text(
-                                                "Clear Fields & Exit",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w900,
-                                                    letterSpacing: 3),
-                                              ),
-                                            ),
-                                          ),
+                                          const SizedBox(height: 16.0),
+                                          Text('Age: $ageText'),
+                                          Text('Name: $name'),
+                                          Text('Address: $address'),
+                                          Text('Gender: $selectedGender'),
+                                          Text(
+                                              'BMI: ${bmi.toStringAsFixed(2)}'),
+                                          Text('BMI Comment: $bmiComment'),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10,),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: OutlinedButton(
-                                          onPressed: () {
-                                            addBmiData();
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            padding: const EdgeInsets.all(20),
-                                            foregroundColor: Colors.white70,
-                                            primary: const Color(0xFF10ac84),
-                                          ),
-                                          child: const Text(
-                                            "Write Data",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w900,
-                                                letterSpacing: 3),
-                                          ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          addBmiData();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.all(20),
+                                          backgroundColor:
+                                              const Color(0xFF222f3e),
+                                          foregroundColor: Colors.white,
                                         ),
+                                        child: const Text('Write Data'),
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10,),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: OutlinedButton(
-                                          onPressed: () => Get.to(() => PreviousRecordsScreen()),
-                                          style: ElevatedButton.styleFrom(
-                                            padding: const EdgeInsets.all(20),
-                                            foregroundColor: Colors.white70,
-                                            primary: const Color(0xFF1dd1a1),
-                                          ),
-                                          child: const Text(
-                                            "Show Previous Records",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w900,
-                                                letterSpacing: 3),
-                                          ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Get.to(() => const PreviousRecordsScreen());
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.all(20),
+                                          backgroundColor:
+                                              const Color(0xFF222f3e),
+                                          foregroundColor: Colors.white,
                                         ),
+                                        child: const Text('Previous Records'),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          resetFields();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.all(20),
+                                          backgroundColor:
+                                              const Color(0xFF222f3e),
+                                          foregroundColor: Colors.white,
+                                        ),
+                                        child: const Text('Exit'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          );
-                          setState(() {
-                            name = nameController.text;
-                            addressIs = addressController.text;
-                            weight = int.tryParse(weightController.text) ?? 0;
-                            height = int.tryParse(heightController.text) ?? 0;
-                            heightResults = bmiResult(bmi);
-                            bmi = calculateBmi(height: height, weight: weight);
-                            selectedGender;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(20),
-                          foregroundColor: Colors.white70,
-                          primary: const Color(0xFF10ac84),
-                        ),
-                        child: const Text(
-                          "Submit",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 3),
-                        ),
+                          ),
+                        );
+                        _calculateBMI();
+                        printData();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(20),
+                        backgroundColor: const Color(0xFF222f3e),
+                        foregroundColor: Colors.white,
                       ),
+                      child: const Text('Submit'),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(20),
-                          foregroundColor: Colors.white70,
-                          primary: const Color(0xFFee5253),
-                        ),
-                        child: const Text(
-                          "Clear Fields",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 3),
-                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        resetFields();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(20),
+                        backgroundColor: const Color(0xFF222f3e),
+                        foregroundColor: Colors.white,
                       ),
+                      child: const Text('Reset Fields'),
                     ),
-                  ],
-                )
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  void _showDatePicker() {
-    showDatePicker(
+  void _showDatePicker() async {
+    final currentDate = DateTime.now();
+    final initialDate = _selectedBirthday ?? currentDate;
+
+    final selectedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: initialDate,
       firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    ).then((value) {
-      if (value != null) {
-        calculateAge(value);
-      }
+      lastDate: currentDate,
+    );
+
+    if (selectedDate != null) {
       setState(() {
-        dateTime1 = DateFormat('yyyy-MM-dd').format(value!);
+        _selectedBirthday = selectedDate;
       });
-    });
-  }
-
-  double calculateBmi({required int height, required int weight}) {
-    return (weight / (height * height)) * 10000;
-  }
-
-  static String bmiResult(bmiValue) {
-    if (bmiValue >= 25) {
-      return "Over Weight";
-    } else if (bmiValue > 18.5) {
-      return "Normal";
-    } else {
-      return "Under Weight";
     }
   }
 
-  void calculateAge(DateTime? value) {
-    DateTime now = DateTime.now();
-    Duration age = now.difference(value!);
-    int years = age.inDays ~/ 365;
-    int months = (age.inDays % 365) ~/ 30;
-    int days = ((age.inDays % 365) % 30);
-    setState(() {
-      myAge = '$years years, $months months';
-    });
+  String? validateWeight() {
+    double? weight = double.tryParse(weightController.text);
+    if (weight == null || weight < 25 || weight > 200) {
+      return 'Enter a valid weight between 25 and 200 kg';
+    }
+    return null;
   }
 
-  void clearTextFields() {
+  String? validateHeight() {
+    double? height = double.tryParse(heightController.text);
+    if (height == null || height < 100 || height > 220) {
+      return 'Enter a valid height between 100 and 220 cm';
+    }
+    return null;
+  }
+
+  void resetFields() {
     nameController.clear();
     addressController.clear();
-    ageController.clear();
     weightController.clear();
     heightController.clear();
   }
-
-  void printData() {
-    print(nameController.text);
-    print(addressIs);
-    print(bmi);
-    print(heightResults);
-    print(myAge);
-    print(selectedGender);
-  }
-
-  void addBmiData() {
-    var document = BmiDataModel(
-        name: name,
-        address: addressIs,
-        myAge: myAge,
-        bmi: bmi,
-        gender: selectedGender,
-        heightResults: heightResults);
-
-    FirebaseFirestore.instance.collection('bmi_data').add(document.toJson());
-  }
 }
+

@@ -6,12 +6,8 @@ import 'package:myapp/views/signin_screen.dart';
 import '../views/dashboard_screen.dart';
 
 class Authentication {
-
-
   signInWithEmailAndPassword(
-      TextEditingController email,
-      TextEditingController password
-      ) {
+      TextEditingController email, TextEditingController password) {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email.text, password: password.text)
         .then((value) {
@@ -24,19 +20,26 @@ class Authentication {
   signInWithGoogle() async {
     GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
     GoogleSignInAuthentication? googleSignInAuth =
-    await googleSignInAccount?.authentication;
+        await googleSignInAccount?.authentication;
     AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuth?.accessToken,
         idToken: googleSignInAuth?.idToken);
     UserCredential userCredential =
-    await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseAuth.instance.signInWithCredential(credential);
     if (userCredential.user != null) {
       Get.to(() => const DashboardScreen());
     }
   }
 
-  signOut(){
+  signOut() {
     FirebaseAuth.instance.signOut();
+    Get.to(() => const SignInScreen());
   }
 
+  getUserName(){
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if(currentUser != null){
+      String email = currentUser.email ?? '';
+    }
+  }
 }

@@ -1,198 +1,131 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:myapp/views/dashboard_screen.dart';
+import '../modals/bmi_data_model.dart';
+import 'package:intl/intl.dart';
 
-class PreviousRecordsScreen extends StatelessWidget {
+class PreviousRecordsScreen extends StatefulWidget {
   const PreviousRecordsScreen({super.key});
 
+  @override
+  State<PreviousRecordsScreen> createState() => _PreviousRecordsScreenState();
+}
+
+class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      onPressed: () => Get.to(() => const DashboardScreen()),
-                      icon: const Icon(
-                        FontAwesomeIcons.circleArrowLeft,
-                        size: 40,
-                        color: Color(0xFF1dd1a1),
-                      ),
-
-                    ),
-                  ),
-                ],
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage(
-                      "assets/images/previous_records_image.jpg",
-                    ),
-                    width: 450,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20),
-                child: Column(
+              const Image(
+                  image:
+                      AssetImage("assets/images/previous_records_image.jpg")),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0),
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-                          child: Text(
-                            "Previous Results",
-                            style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.w900,
-                              color: Color(0xFF385a64),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Color(0xa91dd1a1),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 20,horizontal: 30),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.calendarDay,color: Color(0xFFffffff),),
-                                      SizedBox(width: 50,),
-                                      Text("2023-08-09"),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: Row(
-                                      children: [
-                                        Icon(FontAwesomeIcons.listNumeric,color: Color(0xFFffffff),),
-                                        SizedBox(width: 50,),
-                                        Text("25.7"),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.heart,color: Color(0xFFffffff),),
-                                      SizedBox(width: 50,),
-                                      Text("Normal"),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Color(0xa91dd1a1),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 20,horizontal: 30),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.calendarDay,color: Color(0xFFffffff),),
-                                      SizedBox(width: 50,),
-                                      Text("2023-08-09"),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: Row(
-                                      children: [
-                                        Icon(FontAwesomeIcons.listNumeric,color: Color(0xFFffffff),),
-                                        SizedBox(width: 50,),
-                                        Text("25.7"),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.heart,color: Color(0xFFffffff),),
-                                      SizedBox(width: 50,),
-                                      Text("Normal"),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Color(0xa91dd1a1),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 20,horizontal: 30),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.calendarDay,color: Color(0xFFffffff),),
-                                      SizedBox(width: 50,),
-                                      Text("2023-08-09"),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: Row(
-                                      children: [
-                                        Icon(FontAwesomeIcons.listNumeric,color: Color(0xFFffffff),),
-                                        SizedBox(width: 50,),
-                                        Text("25.7"),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.heart,color: Color(0xFFffffff),),
-                                      SizedBox(width: 50,),
-                                      Text("Normal"),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "Your Previous BMI Records",
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF385a64),
+                      ),
                     ),
                   ],
+                ),
+              ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('bmi_data')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    }
+
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    final data = snapshot.data!.docs;
+
+                    return Scrollbar(
+                      isAlwaysShown: true,
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          final doc = data[index];
+                          final bmiData = BmiDataModel.fromJson(
+                              doc.data() as Map<String, dynamic>);
+
+                          final formattedTimestamp = bmiData.timestamp != null
+                              ? DateFormat.yMMMd()
+                                  .format(bmiData.timestamp!.toDate())
+                              : 'Unknown';
+
+                          return Card(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              side: const BorderSide(
+                                color: Colors.black,
+                                strokeAlign: 0,
+                                width: 1
+
+                              )
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(FontAwesomeIcons.calendarDays),
+                                      const SizedBox(width: 50),
+                                      Text(formattedTimestamp),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(FontAwesomeIcons.coins),
+                                      const SizedBox(width: 50),
+                                      Text(bmiData.bmi.toStringAsFixed(1)),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(FontAwesomeIcons.heartCircleCheck,color: Colors.pinkAccent,),
+                                      const SizedBox(width: 50),
+                                      Text(bmiData.bmiComment),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
