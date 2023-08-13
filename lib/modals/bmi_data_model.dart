@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class BmiDataModel {
+  final String? userId;
   final String name;
   final String address;
   final String ageText;
@@ -16,6 +17,7 @@ class BmiDataModel {
   final Timestamp? timestamp;
 
   BmiDataModel({
+    required this.userId,
     required this.name,
     required this.address,
     required this.ageText,
@@ -30,6 +32,7 @@ class BmiDataModel {
   String toRawJson() => json.encode(toJson());
 
   factory BmiDataModel.fromJson(Map<String, dynamic> json) => BmiDataModel(
+    userId: json["userId"],
     name: json["name"] ?? '',
     address: json["address"]?? '',
     ageText: json["ageText"]?? '',
@@ -40,6 +43,7 @@ class BmiDataModel {
   );
 
   Map<String, dynamic> toJson() => {
+    "userId":userId,
     "name": name,
     "address": address,
     "ageText": ageText,

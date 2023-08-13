@@ -2,8 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:myapp/functions/app_validator_functions.dart';
+import 'package:myapp/views/dashboard_screen.dart';
+import '../constants/app_btn_text_constants.dart';
+import '../constants/app_color_constants.dart';
+import '../constants/app_text_constants.dart';
 import '../functions/auth_functions.dart';
 import 'package:myapp/views/signin_screen.dart';
+
+import '../modals/user_model.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -15,6 +22,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final authFunctions = Authentication();
+  final validators = AppValidators();
+
 
   TextEditingController name = TextEditingController();
 
@@ -39,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: [
                 const Image(
                   image: AssetImage("assets/images/sign_up_image.jpg"),
-                  width: 400,
+                  width: 350,
                 ),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -47,11 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Let's Get Started",
-                      style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF385a64),
-                      ),
+                      style: kSignUpAndSignInPageTitleStyles,
                     ),
                   ),
                 ),
@@ -66,14 +71,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     children: [
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                        validator: (value) => validators.validateName(value!),
                         controller: name,
                         decoration: const InputDecoration(
+                          labelText: 'Name',
                           hintText: 'Name',
                           border: OutlineInputBorder(),
                         ),
@@ -82,14 +83,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 10,
                       ),
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter An Valid Email';
-                          }
-                          return null;
-                        },
+                        validator: (value) => validators.validateEmail(value!),
                         controller: email,
                         decoration: const InputDecoration(
+                          labelText: 'Email',
                           hintText: 'Email',
                           border: OutlineInputBorder(),
                         ),
@@ -98,14 +95,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 10,
                       ),
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Valid Phone Number';
-                          }
-                          return null;
-                        },
+                        validator: (value) => validators.validateMobile(value!),
                         controller: phone,
                         decoration: const InputDecoration(
+                          labelText: 'Mobile',
                           hintText: 'Mobile',
                           border: OutlineInputBorder(),
                         ),
@@ -114,31 +107,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 10,
                       ),
                       TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Check Your Password';
-                          }
-                          return null;
-                        },
+                        validator: (value) => validators.validatePassword(value!),
                         controller: password,
                         decoration: const InputDecoration(
+                          labelText: 'Password',
                           hintText: 'Password',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password Not Matched';
-                          }
-                          return null;
-                        },
-                        controller: confirmPassword,
-                        decoration: const InputDecoration(
-                          hintText: 'Confirm Password',
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -151,25 +124,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                      email: email.text, password: password.text);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Processing Data')),
+                                  FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                          email: email.text,
+                                          password: password.text);
+
+                                  final userModel = UserModel(
+                                    name: name.text.trim(),
+                                    email: email.text.trim(),
+                                    phone: phone.text.trim(),
                                   );
+                                  authFunctions.createUser(userModel);
+                                  Get.to(()=>const DashboardScreen());
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.all(20),
-                                primary: Color(0xFF10ac84),
+                                primary: kPrimaryBtnColor,
                               ),
                               child: const Text(
                                 "Sign Up",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 3),
+                                style: kBtnStyles,
                               ),
                             ),
                           ),
@@ -185,9 +160,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Text(
                       "Already Have An Account?",
                       style: TextStyle(
-                        color: Color(0xFF485460),
-                        fontWeight: FontWeight.w900
-                      ),
+                          color: Color(0xFF485460),
+                          fontWeight: FontWeight.w900),
                     ),
                   ),
                 ),
@@ -203,11 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         child: const Text(
                           "Sign In",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 3),
+                          style: kBtnStyles,
                         ),
                       ),
                     ),
@@ -216,10 +186,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 20),
                   child: Text(
-                    "OR SIGN IN WITH",style: TextStyle(
-                    color: Color(0xFF485460),
-                    fontWeight: FontWeight.w900
-                  ),
+                    "OR SIGN IN WITH",
+                    style: TextStyle(
+                        color: Color(0xFF485460), fontWeight: FontWeight.w900),
                   ),
                 ),
                 Row(

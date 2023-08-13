@@ -5,3 +5,9 @@ const kDashBoardTextStyles = TextStyle(
   fontWeight: FontWeight.w600,
   letterSpacing: 2,
 );
+
+const kSignUpAndSignInPageTitleStyles = TextStyle(
+  fontSize: 50,
+  fontWeight: FontWeight.w900,
+  color: Color(0xFF385a64),
+);

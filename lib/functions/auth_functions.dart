@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myapp/modals/user_model.dart';
 import 'package:myapp/views/signin_screen.dart';
 import '../views/dashboard_screen.dart';
 
@@ -36,10 +38,31 @@ class Authentication {
     Get.to(() => const SignInScreen());
   }
 
-  getUserName(){
+  getUserName() {
     User? currentUser = FirebaseAuth.instance.currentUser;
-    if(currentUser != null){
+    if (currentUser != null) {
       String email = currentUser.email ?? '';
     }
   }
+
+  createUser(UserModel userModel) async{
+    await FirebaseFirestore.instance
+        .collection('users')
+        .add(userModel.toJson())
+        .whenComplete(
+          () => Get.snackbar("Success", "User Created SuccessFully",
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.green[200],
+              colorText: Colors.blue),
+        )
+        .catchError((err, stackTrace) {
+      Get.snackbar("Error", "Something Went Wrong",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.green[200],
+          colorText: Colors.red);
+      print(err.toString());
+    });
+  }
+
+
 }

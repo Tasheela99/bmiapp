@@ -2,7 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:myapp/constants/app_btn_text_constants.dart';
+import 'package:myapp/constants/app_color_constants.dart';
+import 'package:myapp/functions/app_validator_functions.dart';
 import 'package:myapp/views/signup_screen.dart';
+import '../constants/app_text_constants.dart';
 import '../functions/auth_functions.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -15,6 +19,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final signInForm = GlobalKey<FormState>();
   final authFunctions = Authentication();
+  final validators = AppValidators();
 
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
@@ -40,11 +45,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Welcome!",
-                      style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF385a64),
-                      ),
+                      style: kSignUpAndSignInPageTitleStyles,
                     ),
                   ),
                 ),
@@ -58,22 +59,27 @@ class _SignInScreenState extends State<SignInScreen> {
                     key: signInForm,
                     child: Column(
                       children: [
-                        TextField(
+                        TextFormField(
                           controller: email,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
+                            labelText: 'Email',
                             hintText: 'Email',
                             border: OutlineInputBorder(),
                           ),
+                          validator: (value) => validators.validateEmail(value!),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        TextField(
+                        TextFormField(
                           controller: password,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
+                            labelText: 'Password',
                             hintText: 'Password',
                             border: OutlineInputBorder(),
                           ),
+                          validator: (value) => validators.validatePassword(value!),
+
                         ),
                         const Align(
                           alignment: Alignment.centerRight,
@@ -100,16 +106,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(20),
-                                  backgroundColor: const Color(0xFF10ac84),
+                                  backgroundColor: kPrimaryBtnColor,
                                   foregroundColor: Colors.white70,
                                 ),
                                 child: const Text(
                                   "Sign In",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w900,
-                                      letterSpacing: 3),
+                                  style: kBtnStyles,
                                 ),
                               ),
                             ),
@@ -133,17 +135,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         onPressed: () => Get.to(() => const SignUpScreen()),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(20),
-                          backgroundColor: const Color(0xFF222f3e),
+                          backgroundColor: kSecondaryBtnColor,
                           foregroundColor: Colors.white70,
                         ),
                         child: const Text(
                           "Sign Up",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 3,
-                          ),
+                          style: kBtnStyles,
                         ),
                       ),
                     ),
