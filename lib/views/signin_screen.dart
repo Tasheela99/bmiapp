@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:myapp/constants/app_btn_text_constants.dart';
 import 'package:myapp/constants/app_color_constants.dart';
 import 'package:myapp/functions/app_validator_functions.dart';
+import 'package:myapp/views/forget_password_screen.dart';
 import 'package:myapp/views/signup_screen.dart';
 import '../constants/app_text_constants.dart';
 import '../functions/auth_functions.dart';
@@ -61,7 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         TextFormField(
                           controller: email,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Email',
                             hintText: 'Email',
                             border: OutlineInputBorder(),
@@ -73,7 +74,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         TextFormField(
                           controller: password,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Password',
                             hintText: 'Password',
                             border: OutlineInputBorder(),
@@ -81,11 +82,11 @@ class _SignInScreenState extends State<SignInScreen> {
                           validator: (value) => validators.validatePassword(value!),
 
                         ),
-                        const Align(
+                        Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: null,
-                            child: Text(
+                            onPressed: () => Get.to(() => const ForgetPasswordScreen()),
+                            child: const Text(
                               "Forget Password?",
                               style: TextStyle(
                                 color: Color(0xFF485460),

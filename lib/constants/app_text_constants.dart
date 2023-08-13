@@ -7,7 +7,7 @@ const kDashBoardTextStyles = TextStyle(
 );
 
 const kSignUpAndSignInPageTitleStyles = TextStyle(
-  fontSize: 50,
+  fontSize: 45,
   fontWeight: FontWeight.w900,
   color: Color(0xFF385a64),
 );

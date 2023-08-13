@@ -12,7 +12,19 @@ class Authentication {
       TextEditingController email, TextEditingController password) {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email.text, password: password.text)
-        .then((value) {
+        .whenComplete(
+          () => Get.snackbar("Success", "Welcome to Your Dashboard",
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.green[200],
+              colorText: Colors.blue),
+        )
+        .catchError((err, stackTrace) {
+      Get.snackbar("Error", "Something Went Wrong",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.green[200],
+          colorText: Colors.red);
+      print(err.toString());
+    }).then((value) {
       Get.to(() => const DashboardScreen());
     }).onError((error, stackTrace) {
       print("Error Is ${error.toString()}");
@@ -33,6 +45,31 @@ class Authentication {
     }
   }
 
+  resetPassword(BuildContext context, TextEditingController controller) async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(
+            email: controller.text,
+          )
+          .whenComplete(
+            () => Get.snackbar(
+                "Success", "Password Reset Email Send SuccessFully",
+                snackPosition: SnackPosition.TOP,
+                backgroundColor: Colors.green[200],
+                colorText: Colors.blue),
+          )
+          .catchError((err, stackTrace) {
+        Get.snackbar("Error", "Something Went Wrong",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.green[200],
+            colorText: Colors.red);
+        print(err.toString());
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
   signOut() {
     FirebaseAuth.instance.signOut();
     Get.to(() => const SignInScreen());
@@ -45,7 +82,7 @@ class Authentication {
     }
   }
 
-  createUser(UserModel userModel) async{
+  createUser(UserModel userModel) async {
     await FirebaseFirestore.instance
         .collection('users')
         .add(userModel.toJson())
@@ -63,6 +100,4 @@ class Authentication {
       print(err.toString());
     });
   }
-
-
 }

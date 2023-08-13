@@ -19,6 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'User Details App',
+        defaultTransition: Transition.leftToRightWithFade,
+        transitionDuration: Duration(milliseconds: 500),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),

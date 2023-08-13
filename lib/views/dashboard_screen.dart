@@ -279,7 +279,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             Expanded(
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  if (currentUserUid != null) {
                                                     final bmiDataModel = BmiDataModel(
                                                       userId: currentUserUid,
                                                       name: name,
@@ -291,8 +290,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                       timestamp: Timestamp.now(),
                                                     );
                                                     appData.addBmiData(bmiDataModel);
-                                                  }
-
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   padding:
