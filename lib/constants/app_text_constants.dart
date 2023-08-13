@@ -11,3 +11,10 @@ const kSignUpAndSignInPageTitleStyles = TextStyle(
   fontWeight: FontWeight.w900,
   color: Color(0xFF385a64),
 );
+
+const kUserResultsText =  TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w900,
+  letterSpacing: 2,
+  color: Color(0xFF485460),
+);

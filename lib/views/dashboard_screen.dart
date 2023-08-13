@@ -9,6 +9,7 @@ import 'package:myapp/functions/app_validator_functions.dart';
 import 'package:myapp/functions/auth_functions.dart';
 import 'package:myapp/views/previous_records_screen.dart';
 
+import '../constants/app_text_constants.dart';
 import '../modals/bmi_data_model.dart';
 import 'map_screen.dart';
 
@@ -57,16 +58,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return null;
   }
 
-
-  void printData() {
-    print(name);
-    print(address);
-    print(selectedGender);
-    print(_selectedBirthday);
-    print(bmi);
-    print(bmiComment);
-    print(ageText);
-  }
 
   void _calculateBMI() {
     double weight = double.tryParse(weightController.text) ?? 0;
@@ -139,10 +130,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (user != null) Text("${user.email}"),
-              const Column(
+              const Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image(
-                    image: AssetImage("assets/images/dashboard_image.jpg"),
+                    image: AssetImage("assets/images/dashboard_image.jpg"),width: 350,
                   ),
                 ],
               ),
@@ -182,23 +175,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: weightController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           labelText: 'Weight (kg)',
                           hintText: 'Enter weight',
-                          border: const OutlineInputBorder()),
+                          border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                      validator: (value)=>validators.validateWeight(weightController),
-
+                      validator: (value) =>
+                          validators.validateWeight(weightController),
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: heightController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           labelText: 'Height (cm)',
                           hintText: 'Enter height',
-                          border: const OutlineInputBorder()),
+                          border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                      validator: (value)=>validators.validateHeight(heightController),
+                      validator: (value) =>
+                          validators.validateHeight(heightController),
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -245,10 +239,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              if(areAllFieldsValid()){
+                              if (areAllFieldsValid()) {
                                 showModalBottomSheet(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
                                   context: context,
                                   builder: (context) => Container(
@@ -257,19 +251,114 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       children: [
                                         Column(
                                           children: [
-                                            const Text("Your Details"),
+                                            const Icon(
+                                              FontAwesomeIcons.usersGear,
+                                              size: 50,
+                                              color: kPrimaryBtnColor,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              "Your Details",
+                                              style: TextStyle(
+                                                fontSize: 45,
+                                                fontWeight: FontWeight.w900,
+                                                color: Color(0xFF385a64),
+                                              ),
+                                            ),
                                             if (submitted)
                                               Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   const SizedBox(height: 16.0),
-                                                  Text('Age: $ageText'),
-                                                  Text('Name: $name'),
-                                                  Text('Address: $address'),
-                                                  Text('Gender: $selectedGender'),
-                                                  Text(
-                                                      'BMI: ${bmi.toStringAsFixed(2)}'),
-                                                  Text(
-                                                      'BMI Comment: $bmiComment'),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Text(
+                                                            'Age: ',
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            'Name: ',
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            'Address: ',
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            'Gender: ',
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            'BMI: ',
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            'BMI Comment: ',
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(width: 10),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            ageText,
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            name,
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            address,
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            selectedGender,
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            bmi.toStringAsFixed(
+                                                                2),
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                          Text(
+                                                            bmiComment,
+                                                            style:
+                                                                kUserResultsText,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
                                           ],
@@ -280,23 +369,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             Expanded(
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                    final bmiDataModel = BmiDataModel(
-                                                      userId: currentUserUid,
-                                                      name: name,
-                                                      address: address,
-                                                      ageText: ageText,
-                                                      bmi: bmi,
-                                                      selectedGender: selectedGender,
-                                                      bmiComment: bmiComment,
-                                                      timestamp: Timestamp.now(),
-                                                    );
-                                                    appData.addBmiData(bmiDataModel);
+                                                  final bmiDataModel =
+                                                      BmiDataModel(
+                                                    userId: currentUserUid,
+                                                    name: name,
+                                                    address: address,
+                                                    ageText: ageText,
+                                                    bmi: bmi,
+                                                    selectedGender:
+                                                        selectedGender,
+                                                    bmiComment: bmiComment,
+                                                    timestamp: Timestamp.now(),
+                                                  );
+                                                  appData
+                                                      .addBmiData(bmiDataModel);
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   padding:
-                                                  const EdgeInsets.all(20),
+                                                      const EdgeInsets.all(20),
                                                   backgroundColor:
-                                                  const Color(0xFF1dd1a1),
+                                                      const Color(0xFF1dd1a1),
                                                   foregroundColor: Colors.white,
                                                 ),
                                                 child: const Text('Write Data'),
@@ -310,14 +402,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             Expanded(
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  Get.to(() => PreviousRecordsScreen(currentUserUid: currentUserUid));
-
+                                                  Get.to(() =>
+                                                      PreviousRecordsScreen(
+                                                          currentUserUid:
+                                                              currentUserUid));
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   padding:
-                                                  const EdgeInsets.all(20),
+                                                      const EdgeInsets.all(20),
                                                   backgroundColor:
-                                                  const Color(0xFF10ac84),
+                                                      const Color(0xFF10ac84),
                                                   foregroundColor: Colors.white,
                                                 ),
                                                 child: const Text(
@@ -332,13 +426,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             Expanded(
                                               child: ElevatedButton(
                                                 onPressed: () {
+                                                  Get.to(() => const GoogleMapScreen());
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  padding: const EdgeInsets.all(20),
+                                                  backgroundColor: const Color(0xFF48dbfb),
+                                                  foregroundColor: Colors.white,
+                                                ),
+                                                child: const Text('My Location'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: ElevatedButton(
+                                                onPressed: () {
                                                   resetFields();
+                                                  Navigator.pop(context);
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   padding:
-                                                  const EdgeInsets.all(20),
+                                                      const EdgeInsets.all(20),
                                                   backgroundColor:
-                                                  const Color(0xFFee5253),
+                                                      const Color(0xFFee5253),
                                                   foregroundColor: Colors.white,
                                                 ),
                                                 child: const Text('Exit'),
@@ -351,7 +464,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                 );
                                 _calculateBMI();
-                                printData();
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -378,24 +490,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               foregroundColor: Colors.white,
                             ),
                             child: const Text('Reset Fields'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Get.to(() => GoogleMapScreen());
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(20),
-                              backgroundColor: const Color(0xFFee5253),
-                              foregroundColor: Colors.white,
-                            ),
-                            child: const Text('My Location'),
                           ),
                         ),
                       ],
@@ -434,6 +528,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     weightController.clear();
     heightController.clear();
   }
+
   bool areAllFieldsValid() {
     return _dashboardFormKey.currentState != null &&
         _dashboardFormKey.currentState!.validate() &&
