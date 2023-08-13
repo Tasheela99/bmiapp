@@ -10,6 +10,7 @@ import 'package:myapp/functions/auth_functions.dart';
 import 'package:myapp/views/previous_records_screen.dart';
 
 import '../modals/bmi_data_model.dart';
+import 'map_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -377,6 +378,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               foregroundColor: Colors.white,
                             ),
                             child: const Text('Reset Fields'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Get.to(() => GoogleMapScreen());
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(20),
+                              backgroundColor: const Color(0xFFee5253),
+                              foregroundColor: Colors.white,
+                            ),
+                            child: const Text('My Location'),
                           ),
                         ),
                       ],
