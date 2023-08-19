@@ -97,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         validator: (value) => validators.validateMobile(value!),
                         controller: phone,
+                        keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                           labelText: 'Mobile',
                           hintText: 'Mobile',

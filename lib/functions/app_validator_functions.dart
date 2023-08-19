@@ -48,8 +48,17 @@ class AppValidators {
     if (value.isEmpty) {
       return 'Name is required';
     }
+    if (containsNumbers(value)) {
+      return 'Name should not contain numbers';
+    }
     return null;
   }
+
+  bool containsNumbers(String input) {
+    return RegExp(r'[0-9]').hasMatch(input);
+  }
+
+
   String? validateAddress(String value) {
     if (value.isEmpty) {
       return 'Address is required';
@@ -59,8 +68,8 @@ class AppValidators {
 
   String? validateWeight(TextEditingController weightController) {
     double? weight = double.tryParse(weightController.text);
-    if (weight == null || weight < 25 || weight > 200) {
-      return 'Enter a valid weight between 25 and 200 kg';
+    if (weight == null || weight < 25 || weight > 120) {
+      return 'Enter a valid weight between 25 and 120 kg';
     }
     return null;
   }
