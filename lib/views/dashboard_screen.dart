@@ -148,6 +148,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Name',
                         hintText: 'Enter your name',
+                        prefixIcon: Icon(FontAwesomeIcons.user),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) => validators.validateName(value!),
@@ -163,6 +164,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Address',
                         hintText: 'Enter your address',
+                        prefixIcon: Icon(FontAwesomeIcons.addressBook),
+
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) => validators.validateAddress(value!),
@@ -178,6 +181,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       decoration: const InputDecoration(
                           labelText: 'Weight (kg)',
                           hintText: 'Enter weight',
+                          prefixIcon: Icon(FontAwesomeIcons.weightScale),
+
                           border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
                       validator: (value) =>
@@ -189,6 +194,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       decoration: const InputDecoration(
                           labelText: 'Height (cm)',
                           hintText: 'Enter height',
+                          prefixIcon: Icon(FontAwesomeIcons.textHeight),
+
                           border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
                       validator: (value) =>

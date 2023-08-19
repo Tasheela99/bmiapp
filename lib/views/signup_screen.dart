@@ -76,6 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: const InputDecoration(
                           labelText: 'Name',
                           hintText: 'Name',
+                          prefixIcon: Icon(Icons.person),
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -88,6 +89,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: const InputDecoration(
                           labelText: 'Email',
                           hintText: 'Email',
+                          prefixIcon: Icon(Icons.email),
+
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -101,6 +104,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: const InputDecoration(
                           labelText: 'Mobile',
                           hintText: 'Mobile',
+                          prefixIcon: Icon(Icons.phone),
+
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -113,6 +118,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: const InputDecoration(
                           labelText: 'Password',
                           hintText: 'Password',
+                          prefixIcon: Icon(Icons.fingerprint),
+
                           border: OutlineInputBorder(),
                         ),
                       ),

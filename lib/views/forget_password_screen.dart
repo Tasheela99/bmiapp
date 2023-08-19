@@ -58,6 +58,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         decoration: const InputDecoration(
                           labelText: 'Email',
                           hintText: 'Enter Your Email to Reset Your Password',
+                          prefixIcon: Icon(Icons.email),
+
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) => validators.validateEmail(value!),
