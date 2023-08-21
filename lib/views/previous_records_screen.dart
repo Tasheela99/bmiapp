@@ -108,50 +108,64 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                               : 'Unknown';
 
                           return Card(
-                            color: Colors.white,
+                            color: Color(0xFF1dd1a1),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(5),
                                 side: const BorderSide(
-                                    color: Colors.black,
-                                    strokeAlign: 0,
+                                  color: Colors.transparent,
                                     width: 1)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Row(
-                                    children: [
-                                      const Icon(FontAwesomeIcons.calendarDays),
-                                      const SizedBox(width: 50),
-                                      Text(formattedTimestamp),
-                                    ],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          FontAwesomeIcons.calendarDays,
+                                          color: Color(0xFFFFFFFF),
+                                        ),
+                                        const SizedBox(width: 50),
+                                        Text(
+                                          formattedTimestamp,
+                                          style: TextStyle(
+                                              fontSize: 20, letterSpacing: 1),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Row(
-                                    children: [
-                                      const Icon(FontAwesomeIcons.coins),
-                                      const SizedBox(width: 50),
-                                      Text(bmiData.bmi.toStringAsFixed(1)),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          FontAwesomeIcons.coins,
+                                          color: Color(0xFFFFFFFF),
+                                        ),
+                                        const SizedBox(width: 50),
+                                        Text(bmiData.bmi.toStringAsFixed(1),style: TextStyle(
+                                            fontSize: 20, letterSpacing: 1),),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        FontAwesomeIcons.heartCircleCheck,
-                                        color: Colors.pinkAccent,
-                                      ),
-                                      const SizedBox(width: 50),
-                                      Text(bmiData.bmiComment),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          FontAwesomeIcons.heartCircleCheck,
+                                          color: Color(0xFFFFFFFF),
+                                        ),
+                                        const SizedBox(width: 50),
+                                        Text(bmiData.bmiComment,style: TextStyle(
+                                            fontSize: 20, letterSpacing: 1, fontWeight: FontWeight.w700),),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         },
