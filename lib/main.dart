@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: 'User Details App',
         defaultTransition: Transition.leftToRightWithFade,
-        transitionDuration: Duration(milliseconds: 500),
+        transitionDuration: const Duration(milliseconds: 500),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),

@@ -32,7 +32,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () => Get.to(() => DashboardScreen()),
+                      onPressed: () => Get.to(() => const DashboardScreen()),
                       icon: const Icon(
                         FontAwesomeIcons.houseChimneyUser,
                         color: kPrimaryBtnColor,
@@ -92,7 +92,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                     final data = snapshot.data!.docs;
 
                     return Scrollbar(
-                      isAlwaysShown: true,
+                      thumbVisibility: true,
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -108,7 +108,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                               : 'Unknown';
 
                           return Card(
-                            color: Color(0xFF1dd1a1),
+                            color: const Color(0xFF1dd1a1),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 side: const BorderSide(
@@ -130,7 +130,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                                         const SizedBox(width: 50),
                                         Text(
                                           formattedTimestamp,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 20, letterSpacing: 1),
                                         ),
                                       ],
@@ -145,7 +145,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                                           color: Color(0xFFFFFFFF),
                                         ),
                                         const SizedBox(width: 50),
-                                        Text(bmiData.bmi.toStringAsFixed(1),style: TextStyle(
+                                        Text(bmiData.bmi.toStringAsFixed(1),style: const TextStyle(
                                             fontSize: 20, letterSpacing: 1),),
                                       ],
                                     ),
@@ -159,7 +159,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                                           color: Color(0xFFFFFFFF),
                                         ),
                                         const SizedBox(width: 50),
-                                        Text(bmiData.bmiComment,style: TextStyle(
+                                        Text(bmiData.bmiComment,style: const TextStyle(
                                             fontSize: 20, letterSpacing: 1, fontWeight: FontWeight.w700),),
                                       ],
                                     ),

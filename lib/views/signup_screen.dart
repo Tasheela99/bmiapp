@@ -147,8 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.all(20),
-                                primary: kPrimaryBtnColor,
+                                padding: const EdgeInsets.all(20), backgroundColor: kPrimaryBtnColor,
                               ),
                               child: const Text(
                                 "Sign Up",
@@ -177,11 +176,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () => Get.to(() => SignInScreen()),
+                        onPressed: () => Get.to(() => const SignInScreen()),
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20), backgroundColor: const Color(0xFF222f3e),
                           foregroundColor: Colors.white70,
-                          primary: const Color(0xFF222f3e),
                         ),
                         child: const Text(
                           "Sign In",

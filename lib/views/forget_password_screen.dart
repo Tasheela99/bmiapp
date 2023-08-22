@@ -31,7 +31,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Image(
+                const Image(
                     image: AssetImage("assets/images/forget_password_image.jpg")),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -43,12 +43,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     ),
                   ),
                 ),
-                Row(
+                const Row(
                   children: [
                     Text("Let's Get Your Account Back..."),
                   ],
                 ),
-                SizedBox(height: 50,),
+                const SizedBox(height: 50,),
                 Form(
                   key: forgetPasswordForm,
                   child: Column(
@@ -64,7 +64,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         ),
                         validator: (value) => validators.validateEmail(value!),
                       ),
-                      SizedBox(height: 25,),
+                      const SizedBox(height: 25,),
                       Row(
                         children: [
                           Expanded(
@@ -88,8 +88,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
                         child: Text("OR",style: TextStyle(
                           fontWeight: FontWeight.w900,
                         ),),
@@ -98,7 +98,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         children: [
                           Expanded(
                             child: OutlinedButton(
-                              onPressed: ()=> Get.to(()=>SignInScreen()),
+                              onPressed: ()=> Get.to(()=>const SignInScreen()),
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(20),
                                 backgroundColor: kSecondaryBtnColor,

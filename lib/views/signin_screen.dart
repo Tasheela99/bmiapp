@@ -80,7 +80,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           decoration: InputDecoration(
                             labelText: 'Password',
                             hintText: 'Password',
-                            prefixIcon: Icon(Icons.fingerprint),
+                            prefixIcon: const Icon(Icons.fingerprint),
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -92,7 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 color: Colors.grey,
                               ),
                             ),
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                           ),
                           obscureText: _obscureText,
                           validator: (value) => validators.validatePassword(value!),

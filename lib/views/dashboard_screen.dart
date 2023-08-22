@@ -126,14 +126,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "Welcome",
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w900,
                         color: Color(0xFF385a64)),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   if (user != null) Text("${user.email}"),
                 ],
               ),

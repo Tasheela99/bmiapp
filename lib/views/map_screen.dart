@@ -39,7 +39,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               children: [
                 Row(
                   children: [
-                    IconButton(onPressed: ()=>Get.to(()=>DashboardScreen()),
+                    IconButton(onPressed: ()=>Get.to(()=>const DashboardScreen()),
                         icon: const Icon(FontAwesomeIcons.houseChimneyUser,color: kPrimaryBtnColor,)),
                     const Spacer(),
                     TextButton(

@@ -2,7 +2,6 @@
 //
 //     final bmiDatModel = bmiDatModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class UserModel {
