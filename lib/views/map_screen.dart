@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:myapp/constants/app_color_constants.dart';
 import 'package:myapp/views/dashboard_screen.dart';
 
-import '../constants/app_text_constants.dart';
 import '../functions/auth_functions.dart';
 
 class GoogleMapScreen extends StatefulWidget {

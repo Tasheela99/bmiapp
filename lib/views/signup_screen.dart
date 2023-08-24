@@ -6,7 +6,6 @@ import 'package:myapp/functions/app_validator_functions.dart';
 import 'package:myapp/views/dashboard_screen.dart';
 import '../constants/app_btn_text_constants.dart';
 import '../constants/app_color_constants.dart';
-import '../constants/app_text_constants.dart';
 import '../functions/auth_functions.dart';
 import 'package:myapp/views/signin_screen.dart';
 

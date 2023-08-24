@@ -5,7 +5,6 @@ import 'package:myapp/views/signin_screen.dart';
 
 import '../constants/app_btn_text_constants.dart';
 import '../constants/app_color_constants.dart';
-import '../constants/app_text_constants.dart';
 import '../functions/auth_functions.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
