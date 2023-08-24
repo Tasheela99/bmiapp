@@ -67,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         bmi = weight / ((height / 100) * (height / 100));
 
         if (bmi < 16) {
-          bmiComment = 'Severely Underweight';
+          bmiComment = 'Underweight';
         } else if (bmi >= 16 && bmi < 18.5) {
           bmiComment = 'Underweight';
         } else if (bmi >= 18.5 && bmi < 25) {
@@ -120,36 +120,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 children: [
-                  const Text(
+                  Text(
                     "Welcome",
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w900,
                         color: Color(0xFF385a64)),
                   ),
-                  const Spacer(),
-                  if (user != null) Text("${user.email}"),
+                  Spacer(),
                 ],
               ),
               const Divider(
                 color: Colors.grey,
                 thickness: 2,
               ),
-              const Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage("assets/images/dashboard_image.jpg"),
-                    width: 350,
-                  ),
-                ],
+              LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return Image.asset(
+                    "assets/images/dashboard_image.jpg",
+                    width: constraints.maxWidth,
+                  );
+                },
               ),
               Form(
                 key: _dashboardFormKey,
@@ -257,8 +254,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             onPressed: () {
                               if (areAllFieldsValid()) {
                                 showModalBottomSheet(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30),
+                                    ),
                                   ),
                                   context: context,
                                   builder: (context) => Container(
@@ -283,103 +283,82 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 ),
                                               ),
                                               if (submitted)
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const SizedBox(
-                                                        height: 16.0),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            Text(
-                                                              'Age: ',
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              'Name: ',
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              'Address: ',
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              'Gender: ',
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              'BMI: ',
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              'BMI Comment: ',
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              ageText,
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              name,
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              address,
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              selectedGender,
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              bmi.toStringAsFixed(
-                                                                  2),
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                            Text(
-                                                              bmiComment,
-                                                              style:
-                                                                  kUserResultsText,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                                SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      const SizedBox(height: 16.0),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          const Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                                            children: [
+                                                              Text(
+                                                                'Age: ',
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                'Name: ',
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                'Address: ',
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                'Gender: ',
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                'BMI: ',
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                'BMI Comment: ',
+                                                                style: kUserResultsText,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(width: 10),
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                ageText,
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                name,
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                address,
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                selectedGender,
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                bmi.toStringAsFixed(2),
+                                                                style: kUserResultsText,
+                                                              ),
+                                                              Text(
+                                                                bmiComment,
+                                                                style: kUserResultsText,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+
                                             ],
                                           ),
                                           const SizedBox(height: 10),

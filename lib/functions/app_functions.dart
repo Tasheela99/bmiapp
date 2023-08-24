@@ -17,6 +17,7 @@ class AppFunctions{
           backgroundColor: Colors.green[200],
           colorText: Colors.blue),
     )
+        // ignore: body_might_complete_normally_catch_error
         .catchError((err, stackTrace) {
       Get.snackbar("Error", "Something Went Wrong",
           snackPosition: SnackPosition.TOP,

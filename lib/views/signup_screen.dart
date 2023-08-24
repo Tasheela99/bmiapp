@@ -43,20 +43,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
         body: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             child: Column(
               children: [
-                const Image(
-                  image: AssetImage("assets/images/sign_up_image.jpg"),
-                  width: 350,
+                LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Image.asset(
+                      "assets/images/sign_up_image.jpg",
+                      width: constraints.maxWidth, // Adjust width based on constraints
+                    );
+                  },
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Let's Get Started",
-                      style: kSignUpAndSignInPageTitleStyles,
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Let's Get Started",
+                            style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF385a64),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -64,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Let's See who you are")),
+                      child: Text("By Creating an Account")),
                 ),
                 Form(
                   key: _formKey,

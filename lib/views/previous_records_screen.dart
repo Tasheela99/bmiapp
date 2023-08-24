@@ -26,7 +26,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
               Row(
@@ -57,19 +57,28 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                       AssetImage("assets/images/previous_records_image.jpg")),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "Your Previous BMI Records",
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF385a64),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Your Previous BMI Records",
+                          style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF385a64),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      // Add more widgets horizontally as needed
+                    ],
+                  ),
                 ),
               ),
+
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -160,7 +169,7 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                                         ),
                                         const SizedBox(width: 50),
                                         Text(bmiData.bmiComment,style: const TextStyle(
-                                            fontSize: 20, letterSpacing: 1, fontWeight: FontWeight.w700),),
+                                            fontSize: 15, letterSpacing: 1, fontWeight: FontWeight.w700),),
                                       ],
                                     ),
                                   ),

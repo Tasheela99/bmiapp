@@ -27,19 +27,37 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const Image(
-                    image: AssetImage("assets/images/forget_password_image.jpg")),
+                LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Image.asset(
+                      "assets/images/forget_password_image.jpg",
+                      width: constraints.maxWidth, // Adjust width based on constraints
+                    );
+                  },
+                ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Forgot Your Password?",
-                      style: kSignUpAndSignInPageTitleStyles,
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Forgot Your Password?",
+                            style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF385a64),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -48,7 +66,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     Text("Let's Get Your Account Back..."),
                   ],
                 ),
-                const SizedBox(height: 50,),
+                const SizedBox(height: 20,),
                 Form(
                   key: forgetPasswordForm,
                   child: Column(

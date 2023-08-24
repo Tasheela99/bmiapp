@@ -31,54 +31,70 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    IconButton(onPressed: ()=>Get.to(()=>const DashboardScreen()),
-                        icon: const Icon(FontAwesomeIcons.houseChimneyUser,color: kPrimaryBtnColor,)),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: (){
-                        auth.signOut();
-                      },
-                      child: const Text("LogOut"),
-                    )
-                  ],
-                ),
-                const Divider(
-                  color: Colors.grey,
-                  thickness: 1,
-                  indent: 16,
-                  endIndent: 16,
-                ),
-                const Image(image: AssetImage("assets/images/my_location_image.jpg"),width: 400),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Find Me In Here",
-                      style: kSignUpAndSignInPageTitleStyles,
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  IconButton(onPressed: ()=>Get.to(()=>const DashboardScreen()),
+                      icon: const Icon(FontAwesomeIcons.houseChimneyUser,color: kPrimaryBtnColor,)),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: (){
+                      auth.signOut();
+                    },
+                    child: const Text("LogOut"),
+                  )
+                ],
+              ),
+              const Divider(
+                color: Colors.grey,
+                thickness: 1,
+                indent: 16,
+                endIndent: 16,
+              ),
+              // LayoutBuilder(
+              //   builder: (BuildContext context, BoxConstraints constraints) {
+              //     return Image.asset(
+              //       "assets/images/my_location_image.jpg",
+              //       width: constraints.maxWidth,
+              //     );
+              //   },
+              // ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "My Location",
+                          style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF385a64),
+                          ),
+                        ),
+                      ),
+                      // Add more widgets horizontally as needed
+                    ],
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  height: 400,
-                  width: 450,
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition:
-                        CameraPosition(target: _center, zoom: 11.0),
-                  ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height*0.5,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
