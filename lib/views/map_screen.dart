@@ -19,7 +19,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   final auth = Authentication();
   GoogleMapController? mapController;
-
   final LatLng _center = const LatLng(7.446555058883363, 80.60727791586429);
 
   void _onMapCreated(GoogleMapController controller) {
@@ -86,6 +85,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                 ),
               ),
               Container(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
                 alignment: Alignment.center,
                 height: MediaQuery.of(context).size.height*0.5,
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -93,7 +94,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
                 ),
-              )
+              ),
             ],
           ),
         ),
