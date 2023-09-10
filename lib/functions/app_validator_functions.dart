@@ -29,7 +29,7 @@ class AppValidators {
     if (value.isEmpty) {
       return 'Confirm password is required';
     } else if (value != validatePassword) {
-      return 'Passwords do not match';
+      return "Passwords do not match";
     }
     return null;
   }
@@ -51,6 +51,7 @@ class AppValidators {
     if (containsNumbers(value)) {
       return 'Name should not contain numbers';
     }
+
     return null;
   }
 

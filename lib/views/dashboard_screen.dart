@@ -25,7 +25,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final appData = AppFunctions();
   final auth = Authentication();
   final validators = AppValidators();
-  String? currentUserUid;
+  String? currentUserUid = FirebaseAuth.instance.currentUser!.uid;
   String selectedGender = "Male";
   String name = '';
   String address = '';
@@ -358,7 +358,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     ],
                                                   ),
                                                 )
-
                                             ],
                                           ),
                                           const SizedBox(height: 10),

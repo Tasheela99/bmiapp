@@ -12,27 +12,21 @@ class Authentication {
       TextEditingController email, TextEditingController password) {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email.text, password: password.text)
-        .whenComplete(
-          () => Get.snackbar("Success", "Welcome to Your Dashboard",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.green[200],
-              colorText: Colors.blue),
-        )
-        .catchError((err, stackTrace) {
-      Get.snackbar("Error", "Something Went Wrong",
+        .then((value) {
+      Get.snackbar("Success", "Welcome to Your Dashboard",
+          animationDuration: const Duration(milliseconds: 1000),
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green[200],
-          colorText: Colors.red);
-      print(err.toString());
-    }).then((value) {
+          colorText: Colors.green[900]);
       Get.to(() => const DashboardScreen());
-    }).onError((error, stackTrace) {
-      print("Error Is ${error.toString()}");
+    }).catchError((error) {
+      Get.snackbar("Error", "Something Went Wrong! Try Again",
+          animationDuration: const Duration(milliseconds: 1000),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red[200],
+          colorText: Colors.red[900]);
     });
   }
-
-
-
 
   signInWithGoogle() async {
     GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
@@ -52,21 +46,21 @@ class Authentication {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(
-            email: controller.text,
-          )
-          .whenComplete(
-            () => Get.snackbar(
-                "Success", "Password Reset Email Send SuccessFully",
-                snackPosition: SnackPosition.TOP,
-                backgroundColor: Colors.green[200],
-                colorText: Colors.blue),
-          )
-          .catchError((err, stackTrace) {
-        Get.snackbar("Error", "Something Went Wrong",
+        email: controller.text,
+      )
+          .then((value) {
+        Get.snackbar("Success", "Password Reset E-Mail Send SuccessFully",
+            animationDuration: const Duration(milliseconds: 1000),
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.green[200],
-            colorText: Colors.red);
-        print(err.toString());
+            colorText: Colors.green[900]);
+        Get.to(() => const DashboardScreen());
+      }).catchError((error) {
+        Get.snackbar("Error", "Something Went Wrong! Try Again",
+            animationDuration: const Duration(milliseconds: 1000),
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red[200],
+            colorText: Colors.red[900]);
       });
     } catch (error) {
       print(error);
@@ -89,18 +83,19 @@ class Authentication {
     await FirebaseFirestore.instance
         .collection('users')
         .add(userModel.toJson())
-        .whenComplete(
-          () => Get.snackbar("Success", "User Created SuccessFully",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.green[200],
-              colorText: Colors.blue),
-        )
-        .catchError((err, stackTrace) {
-      Get.snackbar("Error", "Something Went Wrong",
+        .then((value) {
+      Get.snackbar("Success", "User Created SuccessFully",
+          animationDuration: const Duration(milliseconds: 1000),
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green[200],
-          colorText: Colors.red);
-      print(err.toString());
+          colorText: Colors.green[900]);
+      Get.to(() => const DashboardScreen());
+    }).catchError((error) {
+      Get.snackbar("Error", "Something Went Wrong! Try Again",
+          animationDuration: const Duration(milliseconds: 1000),
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red[200],
+          colorText: Colors.red[900]);
     });
   }
 }

@@ -14,13 +14,56 @@
       },
       "oauth_client": [
         {
-          "client_id": "117481488079-atp3fsufffjcm4og9rbju6g6v7m5u8s4.apps.googleusercontent.com",
+          "client_id": "117481488079-brtdit0t0jau9nid7m3vhukpespleoaj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapp",
+            "certificate_hash": "6919c0bf006411584f0446c6ad690dc9fa575f25"
+          }
+        },
+        {
+          "client_id": "117481488079-qsofv2qbb86l7f5fju4k73b23i3dmhv1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
           "current_key": "AIzaSyCSZxJz71i0JeeKtTLdgAxFdDEj0MPQwHc"
+        },
+        {
+          "current_key": "AIzaSyAAfFxFz4k-mGL7lqutZkS4fMj0a9n-gXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117481488079-atp3fsufffjcm4og9rbju6g6v7m5u8s4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117481488079:android:37b7db2c105838a9f201ba",
+        "android_client_info": {
+          "package_name": "com.example.myloginapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117481488079-qsofv2qbb86l7f5fju4k73b23i3dmhv1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSZxJz71i0JeeKtTLdgAxFdDEj0MPQwHc"
+        },
+        {
+          "current_key": "AIzaSyAAfFxFz4k-mGL7lqutZkS4fMj0a9n-gXU"
         }
       ],
       "services": {

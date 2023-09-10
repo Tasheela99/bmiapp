@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),
+        debugShowCheckedModeBanner: false,
         home: const PageSwitcher());
   }
 }
+
 

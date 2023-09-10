@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -78,12 +79,12 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                   ),
                 ),
               ),
-
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('bmi_data')
-                      // .where('userId', isEqualTo: widget.currentUserUid)
+                      // .where('uid',
+                      //     isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -121,10 +122,10 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 side: const BorderSide(
-                                  color: Colors.transparent,
-                                    width: 1)),
+                                    color: Colors.transparent, width: 1)),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -154,8 +155,11 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                                           color: Color(0xFFFFFFFF),
                                         ),
                                         const SizedBox(width: 50),
-                                        Text(bmiData.bmi.toStringAsFixed(1),style: const TextStyle(
-                                            fontSize: 20, letterSpacing: 1),),
+                                        Text(
+                                          bmiData.bmi.toStringAsFixed(1),
+                                          style: const TextStyle(
+                                              fontSize: 20, letterSpacing: 1),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -168,8 +172,13 @@ class _PreviousRecordsScreenState extends State<PreviousRecordsScreen> {
                                           color: Color(0xFFFFFFFF),
                                         ),
                                         const SizedBox(width: 50),
-                                        Text(bmiData.bmiComment,style: const TextStyle(
-                                            fontSize: 15, letterSpacing: 1, fontWeight: FontWeight.w700),),
+                                        Text(
+                                          bmiData.bmiComment,
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              letterSpacing: 1,
+                                              fontWeight: FontWeight.w700),
+                                        ),
                                       ],
                                     ),
                                   ),
